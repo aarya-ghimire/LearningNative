@@ -15,7 +15,7 @@ export default function App() {
       <TouchableOpacity style={styles.button} onPress={handlePress}>
         <Text style={styles.buttonText}>Press Me</Text>
       </TouchableOpacity>
-      <StatusBar style="dark" />
+      <StatusBar style="light" translucent={true} backgroundColor="#264653" />
     </View>
   );
 }
