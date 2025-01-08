@@ -1,9 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Pressable } from "react-native";
 
 export default function App() {
-  const handlePress = () => {
-    alert("Button Pressed! Welcome to my app.");
+  const handlePressPrimary = () => {
+    alert("Primary Button Pressed! Welcome to my app.");
+  };
+
+  const handlePressSecondary = () => {
+    alert("Secondary Button Pressed! Explore more features!");
   };
 
   return (
@@ -12,8 +16,21 @@ export default function App() {
       <Text style={styles.message}>
         Open up App.js to start working on your app.
       </Text>
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Press Me</Text>
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          styles.primaryButton,
+          pressed && styles.primaryButtonPressed,
+        ]}
+        onPress={handlePressPrimary}
+      >
+        <Text style={styles.buttonText}>Primary Action</Text>
+      </Pressable>
+      <TouchableOpacity
+        style={[styles.button, styles.secondaryButton]}
+        onPress={handlePressSecondary}
+      >
+        <Text style={styles.buttonText}>Secondary Action</Text>
       </TouchableOpacity>
       <StatusBar style="light" translucent={true} backgroundColor="#264653" />
     </View>
@@ -23,10 +40,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f3ee",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+    backgroundColor: "linear-gradient(180deg, #f4f3ee, #e0afa0)",
   },
   greeting: {
     fontSize: 28,
@@ -49,18 +66,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    marginBottom: 20,
   },
   button: {
-    marginTop: 20,
-    backgroundColor: "#00afb9",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    width: 200, 
+    height: 50, 
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    marginTop: 15,
+  },
+  primaryButton: {
+    backgroundColor: "#00afb9",
+  },
+  primaryButtonPressed: {
+    backgroundColor: "#0081a7",
+  },
+  secondaryButton: {
+    backgroundColor: "#f07167",
   },
   buttonText: {
     fontSize: 16,
