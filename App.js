@@ -50,7 +50,7 @@ export default function App() {
       {/* Footer Section */}
       <Text style={styles.footer}>Built with ❤️ using React Native</Text>
 
-      {/* Status Bar/ */}
+      {/* Status Bar */}
       <StatusBar style="light" translucent={true} backgroundColor="#264653" />
     </View>
   );
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "linear-gradient(180deg, #f4f3ee, #e0afa0)",
+    backgroundColor: "#f4f3ee",
   },
 
   // Header style
   header: {
-    fontSize: 32,
+    fontSize: 36, // Increased font size for visibility
     fontWeight: "bold",
     marginBottom: 30,
     color: "#001219",
@@ -81,40 +81,40 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 15,
     color: "#264653",
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 3,
+    textShadowColor: "rgba(0, 0, 0, 0.4)", // Increased shadow visibility
+    textShadowOffset: { width: 3, height: 3 },
+    textShadowRadius: 5,
   },
 
   // Message text
   message: {
-    fontSize: 18,
+    fontSize: 20, // Slightly increased font size
     backgroundColor: "#fed9b7",
-    padding: 15,
-    borderRadius: 10,
+    padding: 20, // Increased padding for better spacing
+    borderRadius: 15, // More rounded corners
     textAlign: "center",
     color: "#001219",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    marginBottom: 20,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3, // Enhanced shadow visibility
+    shadowRadius: 6,
+    elevation: 6,
+    marginBottom: 25,
   },
 
   // Common button style
   button: {
-    width: 200,
-    height: 50,
+    width: 220, // Wider buttons for visibility
+    height: 55, // Slightly taller buttons
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 10, // More rounded button corners
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    marginTop: 15,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
+    marginTop: 20, // Increased spacing between buttons
   },
 
   // Primary button style
@@ -134,15 +134,15 @@ const styles = StyleSheet.create({
 
   // Button text style
   buttonText: {
-    fontSize: 16,
+    fontSize: 18, // Increased text size
     color: "#ffffff",
     fontWeight: "bold",
   },
 
   // Footer style
   footer: {
-    marginTop: 30,
-    fontSize: 14,
+    marginTop: 40, // Increased margin for better spacing
+    fontSize: 16, // Larger font size for visibility
     color: "#264653",
     fontStyle: "italic",
   },
