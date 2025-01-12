@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 export default function App() {
-  // State for theme (light or dark)
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Toggle theme
@@ -64,6 +63,18 @@ export default function App() {
         ]}
       >
         Open up App.js to start working on your app.
+      </Text>
+
+      {/* Helpful Tip */}
+      <Text
+        style={[
+          styles.tip,
+          { color: isDarkMode ? "#fed9b7" : "#264653" },
+        ]}
+      >
+        {isDarkMode
+          ? "Tip: Dark mode is easier on the eyes at night!"
+          : "Tip: Light mode is great for bright environments!"}
       </Text>
 
       {/* Buttons */}
@@ -124,7 +135,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  // Main container
   container: {
     flex: 1,
     alignItems: "center",
@@ -132,7 +142,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  // Header style
   header: {
     fontSize: 36,
     fontWeight: "bold",
@@ -140,7 +149,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 
-  // Greeting text
   greeting: {
     fontSize: 28,
     fontWeight: "bold",
@@ -150,7 +158,6 @@ const styles = StyleSheet.create({
     textShadowRadius: 5,
   },
 
-  // Message text
   message: {
     fontSize: 20,
     padding: 20,
@@ -164,7 +171,12 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 
-  // Common button style
+  tip: {
+    fontSize: 16,
+    fontStyle: "italic",
+    marginBottom: 15,
+  },
+
   button: {
     width: 220,
     height: 55,
@@ -179,36 +191,30 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  // Primary button style
   primaryButton: {
     backgroundColor: "#00afb9",
   },
 
-  // Primary button pressed state
   primaryButtonPressed: {
     backgroundColor: "#0081a7",
   },
 
-  // Secondary button style
   secondaryButton: {
     backgroundColor: "#f07167",
   },
 
-  // Button text style
   buttonText: {
     fontSize: 18,
     color: "#ffffff",
     fontWeight: "bold",
   },
 
-  // Footer style
   footer: {
     marginTop: 40,
     fontSize: 16,
     fontStyle: "italic",
   },
 
-  // Switch container
   switchContainer: {
     flexDirection: "row",
     alignItems: "center",
