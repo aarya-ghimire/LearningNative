@@ -11,6 +11,7 @@ import {
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [counter, setCounter] = useState(0); // Counter state
 
   // Toggle theme
   const toggleTheme = () => {
@@ -19,7 +20,8 @@ export default function App() {
 
   // Handle primary button press
   const handlePressPrimary = () => {
-    alert("Primary Button Pressed! Welcome to my app.");
+    setCounter((prevCounter) => prevCounter + 1); // Increment counter
+    alert(`Primary Button Pressed ${counter + 1} time(s)!`);
   };
 
   // Handle secondary button press
@@ -65,16 +67,14 @@ export default function App() {
         Open up App.js to start working on your app.
       </Text>
 
-      {/* Helpful Tip */}
+      {/* Counter Display */}
       <Text
         style={[
-          styles.tip,
-          { color: isDarkMode ? "#fed9b7" : "#264653" },
+          styles.counterText,
+          { color: isDarkMode ? "#f07167" : "#264653" },
         ]}
       >
-        {isDarkMode
-          ? "Tip: Dark mode is easier on the eyes at night!"
-          : "Tip: Light mode is great for bright environments!"}
+        Primary Button Pressed: {counter} time(s)
       </Text>
 
       {/* Buttons */}
@@ -171,10 +171,10 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 
-  tip: {
-    fontSize: 16,
-    fontStyle: "italic",
-    marginBottom: 15,
+  counterText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 10,
   },
 
   button: {
