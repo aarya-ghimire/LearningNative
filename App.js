@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import {
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [counter, setCounter] = useState(0); // Counter state
+  const [greeting, setGreeting] = useState(""); // Dynamic time greeting
 
   // Toggle theme
   const toggleTheme = () => {
@@ -24,10 +25,28 @@ export default function App() {
     alert(`Primary Button Pressed ${counter + 1} time(s)!`);
   };
 
+  // Reset counter
+  const handleResetCounter = () => {
+    setCounter(0);
+    alert("Counter has been reset!");
+  };
+
   // Handle secondary button press
   const handlePressSecondary = () => {
     alert("Secondary Button Pressed! Explore more features!");
   };
+
+  // Set dynamic greeting based on time
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      setGreeting("Good Morning");
+    } else if (hour < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
+    }
+  }, []);
 
   return (
     <View
@@ -46,15 +65,17 @@ export default function App() {
         My Cool App
       </Text>
 
-      {/* Greeting and Main Message */}
+      {/* Dynamic Greeting */}
       <Text
         style={[
           styles.greeting,
           { color: isDarkMode ? "#fed9b7" : "#264653" },
         ]}
       >
-        Welcome to My App!
+        {greeting}, Welcome to My App!
       </Text>
+
+      {/* Main Message */}
       <Text
         style={[
           styles.message,
@@ -88,11 +109,20 @@ export default function App() {
       >
         <Text style={styles.buttonText}>Primary Action</Text>
       </Pressable>
+
       <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
         onPress={handlePressSecondary}
       >
         <Text style={styles.buttonText}>Secondary Action</Text>
+      </TouchableOpacity>
+
+      {/* Reset Counter Button */}
+      <TouchableOpacity
+        style={[styles.button, styles.resetButton]}
+        onPress={handleResetCounter}
+      >
+        <Text style={styles.buttonText}>Reset Counter</Text>
       </TouchableOpacity>
 
       {/* Theme Switcher */}
@@ -201,6 +231,10 @@ const styles = StyleSheet.create({
 
   secondaryButton: {
     backgroundColor: "#f07167",
+  },
+
+  resetButton: {
+    backgroundColor: "#264653",
   },
 
   buttonText: {
