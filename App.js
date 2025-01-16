@@ -8,6 +8,7 @@ import {
   Pressable,
   Switch,
   TextInput, // Import TextInput for custom color input
+  ScrollView, // Import ScrollView for color history
 } from "react-native";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
   const [greeting, setGreeting] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee"); // Default background color
   const [customColor, setCustomColor] = useState(""); // State for user input color
+  const [colorHistory, setColorHistory] = useState([]); // Track applied colors
 
   // Toggle theme
   const toggleTheme = () => {
@@ -43,9 +45,24 @@ export default function App() {
   const applyCustomColor = () => {
     if (/^#[0-9A-F]{6}$/i.test(customColor)) {
       setBackgroundColor(customColor);
+      setColorHistory((prevHistory) => [customColor, ...prevHistory]);
     } else {
       alert("Please enter a valid hex color code (e.g., #123ABC).");
     }
+  };
+
+  // Generate a random background color
+  const generateRandomColor = () => {
+    const randomColor = `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0")}`;
+    setBackgroundColor(randomColor);
+    setColorHistory((prevHistory) => [randomColor, ...prevHistory]);
+  };
+
+  // Revert to a color from history
+  const revertToColor = (color) => {
+    setBackgroundColor(color);
   };
 
   // Set dynamic greeting based on time
@@ -172,8 +189,29 @@ export default function App() {
           >
             <Text style={styles.buttonText}>Apply Color</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.randomColorButton]}
+            onPress={generateRandomColor}
+          >
+            <Text style={styles.buttonText}>Random Background</Text>
+          </TouchableOpacity>
         </View>
       )}
+
+      {/* Color History */}
+      <ScrollView style={styles.historyContainer}>
+        <Text style={styles.historyTitle}>Color History:</Text>
+        {colorHistory.map((color, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.historyItem, { backgroundColor: color }]}
+            onPress={() => revertToColor(color)}
+          >
+            <Text style={styles.historyText}>{color}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
       {/* Footer Section */}
       <Text
@@ -270,6 +308,10 @@ const styles = StyleSheet.create({
 
   applyButton: {
     backgroundColor: "#fed9b7",
+  },
+
+  randomColorButton: {
+    backgroundColor: "#0081a7",
   },
 
   buttonText: {
