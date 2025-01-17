@@ -6,9 +6,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  Switch,
-  TextInput, // Import TextInput for custom color input
-  ScrollView, // Import ScrollView for color history
+  Switch
 } from "react-native";
 
 export default function App() {
@@ -16,8 +14,6 @@ export default function App() {
   const [counter, setCounter] = useState(0);
   const [greeting, setGreeting] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee"); // Default background color
-  const [customColor, setCustomColor] = useState(""); // State for user input color
-  const [colorHistory, setColorHistory] = useState([]); // Track applied colors
 
   // Toggle theme
   const toggleTheme = () => {
@@ -39,30 +35,6 @@ export default function App() {
   // Handle secondary button press
   const handlePressSecondary = () => {
     alert("Secondary Button Pressed! Explore more features!");
-  };
-
-  // Apply custom background color
-  const applyCustomColor = () => {
-    if (/^#[0-9A-F]{6}$/i.test(customColor)) {
-      setBackgroundColor(customColor);
-      setColorHistory((prevHistory) => [customColor, ...prevHistory]);
-    } else {
-      alert("Please enter a valid hex color code (e.g., #123ABC).");
-    }
-  };
-
-  // Generate a random background color
-  const generateRandomColor = () => {
-    const randomColor = `#${Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, "0")}`;
-    setBackgroundColor(randomColor);
-    setColorHistory((prevHistory) => [randomColor, ...prevHistory]);
-  };
-
-  // Revert to a color from history
-  const revertToColor = (color) => {
-    setBackgroundColor(color);
   };
 
   // Set dynamic greeting based on time
@@ -173,46 +145,6 @@ export default function App() {
         />
       </View>
 
-      {/* Custom Background Color Input */}
-      {!isDarkMode && (
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Enter Background Color (Hex):</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="#123ABC"
-            value={customColor}
-            onChangeText={setCustomColor}
-          />
-          <TouchableOpacity
-            style={[styles.button, styles.applyButton]}
-            onPress={applyCustomColor}
-          >
-            <Text style={styles.buttonText}>Apply Color</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.randomColorButton]}
-            onPress={generateRandomColor}
-          >
-            <Text style={styles.buttonText}>Random Background</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* Color History */}
-      <ScrollView style={styles.historyContainer}>
-        <Text style={styles.historyTitle}>Color History:</Text>
-        {colorHistory.map((color, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.historyItem, { backgroundColor: color }]}
-            onPress={() => revertToColor(color)}
-          >
-            <Text style={styles.historyText}>{color}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
       {/* Footer Section */}
       <Text
         style={[
@@ -227,7 +159,7 @@ export default function App() {
       <StatusBar
         style={isDarkMode ? "light" : "dark"}
         translucent={true}
-        backgroundColor={isDarkMode ? "#001219" : "#264653"}
+        backgroundColor={isDarkMode ? "#001219" : "#ffffff"}
       />
     </View>
   );
@@ -244,7 +176,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 36,
     fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 50,
     textDecorationLine: "underline",
   },
 
@@ -306,14 +238,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#264653",
   },
 
-  applyButton: {
-    backgroundColor: "#fed9b7",
-  },
-
-  randomColorButton: {
-    backgroundColor: "#0081a7",
-  },
-
   buttonText: {
     fontSize: 18,
     color: "#ffffff",
@@ -330,29 +254,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 30,
-  },
-
-  inputContainer: {
-    marginTop: 20,
-    alignItems: "center",
-  },
-
-  inputLabel: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#264653",
-    marginBottom: 10,
-  },
-
-  textInput: {
-    height: 40,
-    width: 200,
-    borderColor: "#264653",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: "#ffffff",
-    color: "#264653",
   },
 });
