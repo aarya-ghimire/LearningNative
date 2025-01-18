@@ -6,13 +6,14 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  Switch
+  Switch,
 } from "react-native";
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [counter, setCounter] = useState(0);
   const [greeting, setGreeting] = useState("");
+  const [currentDate, setCurrentDate] = useState(""); // State for current date
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee"); // Default background color
 
   // Toggle theme
@@ -40,13 +41,26 @@ export default function App() {
   // Set dynamic greeting based on time
   useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) {
-      setGreeting("Good Morning");
-    } else if (hour < 18) {
-      setGreeting("Good Afternoon");
-    } else {
-      setGreeting("Good Evening");
-    }
+    const baseGreeting =
+      hour < 12
+        ? "Good Morning"
+        : hour < 18
+        ? "Good Afternoon"
+        : "Good Evening";
+
+    setGreeting(baseGreeting);
+  }, []);
+
+  // Set current date
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    setCurrentDate(formattedDate);
   }, []);
 
   return (
@@ -74,6 +88,16 @@ export default function App() {
         ]}
       >
         {greeting}, Welcome to My App!
+      </Text>
+
+      {/* Current Date */}
+      <Text
+        style={[
+          styles.date,
+          { color: isDarkMode ? "#fed9b7" : "#264653" },
+        ]}
+      >
+        {currentDate}
       </Text>
 
       {/* Main Message */}
@@ -183,10 +207,15 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 15,
+    marginBottom: 10,
     textShadowColor: "rgba(0, 0, 0, 0.4)",
     textShadowOffset: { width: 3, height: 3 },
     textShadowRadius: 5,
+  },
+
+  date: {
+    fontSize: 16,
+    marginBottom: 20,
   },
 
   message: {
