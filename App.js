@@ -15,10 +15,21 @@ export default function App() {
   const [greeting, setGreeting] = useState("");
   const [currentDate, setCurrentDate] = useState(""); // State for current date
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee"); // Default background color
+  const [quote, setQuote] = useState(""); // State for motivational quotes
+
+  const quotes = [
+    "Believe you can and you're halfway there.",
+    "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+    "Act as if what you do makes a difference. It does.",
+    "The only limit to our realization of tomorrow is our doubts of today.",
+    "Don’t watch the clock; do what it does. Keep going.",
+  ];
 
   // Toggle theme
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    setQuote(randomQuote);
   };
 
   // Handle primary button press
@@ -98,6 +109,19 @@ export default function App() {
         ]}
       >
         {currentDate}
+      </Text>
+
+      {/* Motivational Quote */}
+      <Text
+        style={[
+          styles.quote,
+          {
+            color: isDarkMode ? "#00afb9" : "#f07167",
+            fontStyle: "italic",
+          },
+        ]}
+      >
+        {quote}
       </Text>
 
       {/* Main Message */}
@@ -216,6 +240,12 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 16,
     marginBottom: 20,
+  },
+
+  quote: {
+    fontSize: 18,
+    marginBottom: 25,
+    textAlign: "center",
   },
 
   message: {
