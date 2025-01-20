@@ -44,11 +44,6 @@ export default function App() {
     alert("Counter has been reset!");
   };
 
-  // Handle secondary button press
-  const handlePressSecondary = () => {
-    alert("Secondary Button Pressed! Explore more features!");
-  };
-
   // Set dynamic greeting based on time
   useEffect(() => {
     const hour = new Date().getHours();
@@ -158,13 +153,6 @@ export default function App() {
       >
         <Text style={styles.buttonText}>Primary Action</Text>
       </Pressable>
-
-      <TouchableOpacity
-        style={[styles.button, styles.secondaryButton]}
-        onPress={handlePressSecondary}
-      >
-        <Text style={styles.buttonText}>Secondary Action</Text>
-      </TouchableOpacity>
 
       {/* Reset Counter Button */}
       <TouchableOpacity
@@ -287,10 +275,6 @@ const styles = StyleSheet.create({
 
   primaryButtonPressed: {
     backgroundColor: "#0081a7",
-  },
-
-  secondaryButton: {
-    backgroundColor: "#f07167",
   },
 
   resetButton: {
