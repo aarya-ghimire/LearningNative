@@ -13,9 +13,9 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [counter, setCounter] = useState(0);
   const [greeting, setGreeting] = useState("");
-  const [currentDate, setCurrentDate] = useState(""); // State for current date
-  const [backgroundColor, setBackgroundColor] = useState("#f4f3ee"); // Default background color
-  const [quote, setQuote] = useState(""); // State for motivational quotes
+  const [currentDate, setCurrentDate] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("#f4f3ee");
+  const [quote, setQuote] = useState("");
 
   const quotes = [
     "Believe you can and you're halfway there.",
@@ -35,13 +35,11 @@ export default function App() {
   // Handle primary button press
   const handlePressPrimary = () => {
     setCounter((prevCounter) => prevCounter + 1);
-    alert(`Primary Button Pressed ${counter + 1} time(s)!`);
   };
 
   // Reset counter
   const handleResetCounter = () => {
     setCounter(0);
-    alert("Counter has been reset!");
   };
 
   // Set dynamic greeting based on time
@@ -119,19 +117,6 @@ export default function App() {
         {quote}
       </Text>
 
-      {/* Main Message */}
-      <Text
-        style={[
-          styles.message,
-          {
-            backgroundColor: isDarkMode ? "#264653" : "#fed9b7",
-            color: isDarkMode ? "#f4f3ee" : "#001219",
-          },
-        ]}
-      >
-        Open up App.js to start working on your app.
-      </Text>
-
       {/* Counter Display */}
       <Text
         style={[
@@ -141,6 +126,24 @@ export default function App() {
       >
         Primary Button Pressed: {counter} time(s)
       </Text>
+
+      {/* Progress Bar */}
+      <View
+        style={[
+          styles.progressBarContainer,
+          { backgroundColor: isDarkMode ? "#264653" : "#fed9b7" },
+        ]}
+      >
+        <View
+          style={[
+            styles.progressBar,
+            {
+              width: `${Math.min(counter * 10, 100)}%`,
+              backgroundColor: isDarkMode ? "#00afb9" : "#f07167",
+            },
+          ]}
+        />
+      </View>
 
       {/* Buttons */}
       <Pressable
@@ -236,23 +239,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  message: {
-    fontSize: 20,
-    padding: 20,
-    borderRadius: 15,
-    textAlign: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 6,
-    marginBottom: 25,
-  },
-
   counterText: {
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
+  },
+
+  progressBarContainer: {
+    width: "90%",
+    height: 20,
+    borderRadius: 10,
+    marginVertical: 20,
+    overflow: "hidden",
+  },
+
+  progressBar: {
+    height: "100%",
+    borderRadius: 10,
   },
 
   button: {
