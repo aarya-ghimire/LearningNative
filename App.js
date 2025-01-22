@@ -16,6 +16,7 @@ export default function App() {
   const [currentDate, setCurrentDate] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee");
   const [quote, setQuote] = useState("");
+  const [emoji, setEmoji] = useState("");
 
   const quotes = [
     "Believe you can and you're halfway there.",
@@ -24,6 +25,8 @@ export default function App() {
     "The only limit to our realization of tomorrow is our doubts of today.",
     "Don’t watch the clock; do what it does. Keep going.",
   ];
+
+  const emojis = ["😊", "🚀", "🎉", "✨", "😎", "🌟", "🔥", "💪", "💡", "🎯","🕉️"];
 
   // Toggle theme
   const toggleTheme = () => {
@@ -35,11 +38,14 @@ export default function App() {
   // Handle primary button press
   const handlePressPrimary = () => {
     setCounter((prevCounter) => prevCounter + 1);
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+    setEmoji(randomEmoji);
   };
 
   // Reset counter
   const handleResetCounter = () => {
     setCounter(0);
+    setEmoji("");
   };
 
   // Set dynamic greeting based on time
@@ -125,6 +131,16 @@ export default function App() {
         ]}
       >
         Primary Button Pressed: {counter} time(s)
+      </Text>
+
+      {/* Emoji Reaction */}
+      <Text
+        style={[
+          styles.emojiText,
+          { color: isDarkMode ? "#f07167" : "#264653" },
+        ]}
+      >
+        {emoji}
       </Text>
 
       {/* Progress Bar */}
@@ -243,6 +259,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
+  },
+
+  emojiText: {
+    fontSize: 36,
+    fontWeight: "bold",
+    marginVertical: 20,
   },
 
   progressBarContainer: {
