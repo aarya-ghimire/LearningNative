@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Pressable,
   Switch,
+  Alert,
 } from "react-native";
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
     "Don’t watch the clock; do what it does. Keep going.",
   ];
 
-  const emojis = ["😊", "🚀", "🎉", "✨", "😎", "🌟", "🔥", "💪", "💡", "🎯","🕉️"];
+  const emojis = ["😊", "🚀", "🎉", "✨", "😎", "🌟", "🔥", "💪", "💡", "🎯", "🕉️"];
 
   // Toggle theme
   const toggleTheme = () => {
@@ -40,6 +41,10 @@ export default function App() {
     setCounter((prevCounter) => prevCounter + 1);
     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
     setEmoji(randomEmoji);
+
+    if ((counter + 1) % 10 === 0) {
+      Alert.alert("Milestone Reached!", `You pressed the button ${counter + 1} times!`);
+    }
   };
 
   // Reset counter
