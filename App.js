@@ -9,6 +9,7 @@ import {
   Switch,
   Alert,
   Animated,
+  TextInput,
 } from "react-native";
 
 export default function App() {
@@ -19,6 +20,8 @@ export default function App() {
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee");
   const [quote, setQuote] = useState("");
   const [emoji, setEmoji] = useState("");
+  const [name, setName] = useState("");
+  const [isNameEntered, setIsNameEntered] = useState(false);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -42,7 +45,7 @@ export default function App() {
     "💪",
     "💡",
     "🎯",
-    "🕉️",
+    "🔉⃣",
   ];
 
   const toggleTheme = () => {
@@ -117,6 +120,26 @@ export default function App() {
     setCurrentDate(formattedDate);
   }, []);
 
+  if (!isNameEntered) {
+    return (
+      <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+        <Text style={[styles.header, { color: "#001219" }]}>Enter Your Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Your Name"
+          value={name}
+          onChangeText={setName}
+        />
+        <TouchableOpacity
+          style={[styles.button, styles.primaryButton]}
+          onPress={() => setIsNameEntered(true)}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View
       style={[
@@ -133,7 +156,7 @@ export default function App() {
       <Text
         style={[styles.greeting, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
       >
-        {greeting}, Welcome to My App!
+        {greeting}, {name}!
       </Text>
 
       <Text
@@ -269,4 +292,14 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   footer: { fontSize: 14, marginTop: 16 },
-});
+  input: {
+    height: 40,
+    borderColor: "#001219",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    marginVertical: 8,
+    width: "80%",
+    color: "#001219",
+    backgroundColor: "#f4f3ee",
+  },});
