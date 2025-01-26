@@ -65,7 +65,7 @@ export default function App() {
       useNativeDriver: false,
     }).start();
 
-    if ((counter + 1) % 10 === 0) {
+    if ((counter + 1) % 30 === 0) {
       Alert.alert(
         "Milestone Reached!",
         `You pressed the button ${counter + 1} times!`
@@ -302,4 +302,5 @@ const styles = StyleSheet.create({
     width: "80%",
     color: "#001219",
     backgroundColor: "#f4f3ee",
-  },});
+  },
+});
