@@ -50,6 +50,9 @@ export default function App() {
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
+  };
+
+  const generateQuote = () => {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setQuote(randomQuote);
   };
@@ -234,6 +237,13 @@ export default function App() {
         <Text style={styles.buttonText}>Reset Counter</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={[styles.button, styles.primaryButton]}
+        onPress={generateQuote}
+      >
+        <Text style={styles.buttonText}>Generate Quote</Text>
+      </TouchableOpacity>
+
       <View style={styles.switchContainer}>
         <Text
           style={{
@@ -285,6 +295,7 @@ const styles = StyleSheet.create({
   button: { padding: 12, borderRadius: 8, marginVertical: 8 },
   primaryButton: { backgroundColor: "#00afb9" },
   resetButton: { backgroundColor: "#f07167" },
+  quoteButton: { backgroundColor: "#fed9b7" },
   buttonText: { color: "#ffffff", fontWeight: "bold", textAlign: "center" },
   switchContainer: {
     flexDirection: "row",
