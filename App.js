@@ -86,6 +86,20 @@ export default function App() {
     }).start();
   };
 
+  const handleResetApp = () => {
+    setCounter(0);
+    setQuote("");
+    setEmoji("");
+    setGreeting("");
+    setName("");
+    setIsNameEntered(false);
+    Animated.timing(progressAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+
   const onButtonPressIn = () => {
     Animated.spring(scaleAnim, {
       toValue: 0.9,
@@ -244,6 +258,13 @@ export default function App() {
         <Text style={styles.buttonText}>Generate Quote</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={[styles.button, styles.resetButton]}
+        onPress={handleResetApp}
+      >
+        <Text style={styles.buttonText}>Reset App</Text>
+      </TouchableOpacity>
+
       <View style={styles.switchContainer}>
         <Text
           style={{
@@ -293,25 +314,18 @@ const styles = StyleSheet.create({
   },
   progressBar: { height: "100%", borderRadius: 5 },
   button: { padding: 12, borderRadius: 8, marginVertical: 8 },
-  primaryButton: { backgroundColor: "#00afb9" },
+  primaryButton: { backgroundColor: "#264653" },
+  primaryButtonPressed: { backgroundColor: "#2a9d8f" },
   resetButton: { backgroundColor: "#f07167" },
-  quoteButton: { backgroundColor: "#fed9b7" },
-  buttonText: { color: "#ffffff", fontWeight: "bold", textAlign: "center" },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  buttonText: { color: "#f4f3ee", fontWeight: "bold" },
+  input: {
+    borderWidth: 1,
+    borderColor: "#264653",
+    borderRadius: 8,
+    padding: 12,
+    width: "80%",
     marginVertical: 16,
   },
-  footer: { fontSize: 14, marginTop: 16 },
-  input: {
-    height: 40,
-    borderColor: "#001219",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 8,
-    marginVertical: 8,
-    width: "80%",
-    color: "#001219",
-    backgroundColor: "#f4f3ee",
-  },
+  switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
+  footer: { fontSize: 12, marginTop: 16, fontWeight: "bold" },
 });
