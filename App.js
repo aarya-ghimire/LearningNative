@@ -283,11 +283,18 @@ export default function App() {
         />
       </View>
 
-      <Text
-        style={[styles.footer, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
-      >
-        Built with ❤️ using React Native
-      </Text>
+      <View style={styles.footerLineContainer}>
+        <View style={styles.footerLine}></View>
+      </View>
+
+      <View style={styles.footerContainer}>
+        <Text style={styles.footerLogo}>Aarya's App</Text>
+        <Text
+          style={[styles.footer, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
+        >
+          © Aarya Ghimire 2025 | Built with ❤️ using React Native
+        </Text>
+      </View>
 
       <StatusBar
         style={isDarkMode ? "light" : "dark"}
@@ -327,5 +334,21 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
-  footer: { fontSize: 12, marginTop: 16, fontWeight: "bold" },
+  footerLineContainer: { width: "100%", marginTop: 24 },
+  footerLine: { height: 1, backgroundColor: "#f4f3ee", marginBottom: 12 },
+  footerContainer: {
+    alignItems: "center",
+    marginTop: 24,
+    width: "100%",
+  },
+  footerLogo: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#f07167",
+    marginBottom: 8,
+  },
+  footer: {
+    fontSize: 14,
+    textAlign: "center",
+  },
 });
