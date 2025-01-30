@@ -9,7 +9,6 @@ import {
   Switch,
   Alert,
   Animated,
-  TextInput,
 } from "react-native";
 
 export default function App() {
@@ -20,9 +19,6 @@ export default function App() {
   const [backgroundColor, setBackgroundColor] = useState("#f4f3ee");
   const [quote, setQuote] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [name, setName] = useState("");
-  const [isNameEntered, setIsNameEntered] = useState(false);
-
   const progressAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -91,8 +87,6 @@ export default function App() {
     setQuote("");
     setEmoji("");
     setGreeting("");
-    setName("");
-    setIsNameEntered(false);
     Animated.timing(progressAnim, {
       toValue: 0,
       duration: 500,
@@ -137,26 +131,6 @@ export default function App() {
     setCurrentDate(formattedDate);
   }, []);
 
-  if (!isNameEntered) {
-    return (
-      <View style={[styles.container, { backgroundColor: backgroundColor }]}>
-        <Text style={[styles.header, { color: "#001219" }]}>Enter Your Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Your Name"
-          value={name}
-          onChangeText={setName}
-        />
-        <TouchableOpacity
-          style={[styles.button, styles.primaryButton]}
-          onPress={() => setIsNameEntered(true)}
-        >
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   return (
     <View
       style={[
@@ -167,13 +141,13 @@ export default function App() {
       <Text
         style={[styles.header, { color: isDarkMode ? "#f4f3ee" : "#001219" }]}
       >
-        My Cool App
+        My New App
       </Text>
 
       <Text
         style={[styles.greeting, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
       >
-        {greeting}, {name}!
+        {greeting}!
       </Text>
 
       <Text
