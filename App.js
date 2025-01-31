@@ -14,9 +14,6 @@ import {
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [counter, setCounter] = useState(0);
-  const [greeting, setGreeting] = useState("");
-  const [currentDate, setCurrentDate] = useState("");
-  const [backgroundColor, setBackgroundColor] = useState("#f4f3ee");
   const [quote, setQuote] = useState("");
   const [emoji, setEmoji] = useState("");
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -41,7 +38,9 @@ export default function App() {
     "💪",
     "💡",
     "🎯",
-    "🔉⃣",
+    "®️",
+    "💲",
+    "™️",
   ];
 
   const toggleTheme = () => {
@@ -82,18 +81,6 @@ export default function App() {
     }).start();
   };
 
-  const handleResetApp = () => {
-    setCounter(0);
-    setQuote("");
-    setEmoji("");
-    setGreeting("");
-    Animated.timing(progressAnim, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
   const onButtonPressIn = () => {
     Animated.spring(scaleAnim, {
       toValue: 0.9,
@@ -108,34 +95,11 @@ export default function App() {
     }).start();
   };
 
-  useEffect(() => {
-    const hour = new Date().getHours();
-    const baseGreeting =
-      hour < 12
-        ? "Good Morning"
-        : hour < 18
-        ? "Good Afternoon"
-        : "Good Evening";
-
-    setGreeting(baseGreeting);
-  }, []);
-
-  useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toLocaleDateString(undefined, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    setCurrentDate(formattedDate);
-  }, []);
-
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#001219" : backgroundColor },
+        { backgroundColor: isDarkMode ? "#001219" : "#f4f3ee" },
       ]}
     >
       <Text
@@ -143,28 +107,11 @@ export default function App() {
       >
         My New App
       </Text>
-
       <Text
-        style={[styles.greeting, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
-      >
-        {greeting}!
-      </Text>
-
-      <Text
-        style={[styles.date, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
-      >
-        {currentDate}
-      </Text>
-
-      <Text
-        style={[
-          styles.quote,
-          { color: isDarkMode ? "#00afb9" : "#f07167", fontStyle: "italic" },
-        ]}
+        style={[styles.quote, { color: isDarkMode ? "#00afb9" : "#f07167" }]}
       >
         {quote}
       </Text>
-
       <Text
         style={[
           styles.counterText,
@@ -173,7 +120,6 @@ export default function App() {
       >
         Primary Button Pressed: {counter} time(s)
       </Text>
-
       <Text
         style={[
           styles.emojiText,
@@ -183,12 +129,7 @@ export default function App() {
         {emoji}
       </Text>
 
-      <View
-        style={[
-          styles.progressBarContainer,
-          { backgroundColor: isDarkMode ? "#264653" : "#fed9b7" },
-        ]}
-      >
+      <View style={styles.progressBarContainer}>
         <Animated.View
           style={[
             styles.progressBar,
@@ -197,7 +138,7 @@ export default function App() {
                 inputRange: [0, 100],
                 outputRange: ["0%", "100%"],
               }),
-              backgroundColor: isDarkMode ? "#00afb9" : "#f07167",
+              backgroundColor: isDarkMode ? "#fed9b7" : "#f07167",
             },
           ]}
         />
@@ -205,11 +146,7 @@ export default function App() {
 
       <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
         <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            styles.primaryButton,
-            pressed && styles.primaryButtonPressed,
-          ]}
+          style={styles.button}
           onPress={handlePressPrimary}
           onPressIn={onButtonPressIn}
           onPressOut={onButtonPressOut}
@@ -218,25 +155,12 @@ export default function App() {
         </Pressable>
       </Animated.View>
 
-      <TouchableOpacity
-        style={[styles.button, styles.resetButton]}
-        onPress={handleResetCounter}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleResetCounter}>
         <Text style={styles.buttonText}>Reset Counter</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.button, styles.primaryButton]}
-        onPress={generateQuote}
-      >
+      <TouchableOpacity style={styles.button} onPress={generateQuote}>
         <Text style={styles.buttonText}>Generate Quote</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.resetButton]}
-        onPress={handleResetApp}
-      >
-        <Text style={styles.buttonText}>Reset App</Text>
       </TouchableOpacity>
 
       <View style={styles.switchContainer}>
@@ -255,10 +179,6 @@ export default function App() {
           trackColor={{ false: "#767577", true: "#00afb9" }}
           thumbColor={isDarkMode ? "#0081a7" : "#f4f3ee"}
         />
-      </View>
-
-      <View style={styles.footerLineContainer}>
-        <View style={styles.footerLine}></View>
       </View>
 
       <View style={styles.footerContainer}>
@@ -282,9 +202,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
   header: { fontSize: 32, fontWeight: "bold", marginBottom: 16 },
-  greeting: { fontSize: 18, marginVertical: 8 },
-  date: { fontSize: 16, marginBottom: 8 },
-  quote: { fontSize: 14, marginVertical: 8 },
+  quote: { fontSize: 14, fontStyle: "italic", marginVertical: 8 },
   counterText: { fontSize: 18, marginVertical: 8 },
   emojiText: { fontSize: 36, marginVertical: 8 },
   progressBarContainer: {
@@ -294,35 +212,23 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   progressBar: { height: "100%", borderRadius: 5 },
-  button: { padding: 12, borderRadius: 8, marginVertical: 8 },
-  primaryButton: { backgroundColor: "#264653" },
-  primaryButtonPressed: { backgroundColor: "#2a9d8f" },
-  resetButton: { backgroundColor: "#f07167" },
-  buttonText: { color: "#f4f3ee", fontWeight: "bold" },
-  input: {
-    borderWidth: 1,
-    borderColor: "#264653",
+  button: {
+    backgroundColor: "#264653",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 8,
-    padding: 12,
-    width: "80%",
-    marginVertical: 16,
-  },
-  switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
-  footerLineContainer: { width: "100%", marginTop: 24 },
-  footerLine: { height: 1, backgroundColor: "#f4f3ee", marginBottom: 12 },
-  footerContainer: {
+    marginVertical: 8,
     alignItems: "center",
-    marginTop: 24,
-    width: "100%",
+    width: 200,
   },
+  buttonText: { color: "#f4f3ee", fontWeight: "bold" },
+  switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
+  footerContainer: { alignItems: "center", marginTop: 24, width: "100%" },
   footerLogo: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#f07167",
     marginBottom: 8,
   },
-  footer: {
-    fontSize: 14,
-    textAlign: "center",
-  },
+  footer: { fontSize: 14, textAlign: "center" },
 });
