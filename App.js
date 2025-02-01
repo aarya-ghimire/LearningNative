@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   Switch,
   Alert,
   Animated,
+  Linking,
 } from "react-native";
 
 export default function App() {
@@ -27,25 +28,9 @@ export default function App() {
     "Don’t watch the clock; do what it does. Keep going.",
   ];
 
-  const emojis = [
-    "😊",
-    "🚀",
-    "🎉",
-    "✨",
-    "😎",
-    "🌟",
-    "🔥",
-    "💪",
-    "💡",
-    "🎯",
-    "®️",
-    "💲",
-    "™️",
-  ];
+  const emojis = ["😊", "🚀", "🎉", "✨", "😎", "🌟", "🔥", "💪", "💡", "🎯"];
 
-  const toggleTheme = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-  };
+  const toggleTheme = () => setIsDarkMode((prevMode) => !prevMode);
 
   const generateQuote = () => {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
@@ -164,15 +149,7 @@ export default function App() {
       </TouchableOpacity>
 
       <View style={styles.switchContainer}>
-        <Text
-          style={{
-            color: isDarkMode ? "#f4f3ee" : "#001219",
-            fontSize: 16,
-            fontWeight: "bold",
-          }}
-        >
-          Dark Mode
-        </Text>
+        <Text style={styles.switchLabel}>Dark Mode</Text>
         <Switch
           value={isDarkMode}
           onValueChange={toggleTheme}
@@ -183,6 +160,15 @@ export default function App() {
 
       <View style={styles.footerContainer}>
         <Text style={styles.footerLogo}>Aarya's App</Text>
+
+        {/* Portfolio Link */}
+        <Text
+          style={styles.portfolioText}
+          onPress={() => Linking.openURL("https://aaryaghimire.com.np")}
+        >
+          Check out my <Text style={styles.portfolioLink}>portfolio</Text>
+        </Text>
+
         <Text
           style={[styles.footer, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
         >
@@ -223,6 +209,7 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: "#f4f3ee", fontWeight: "bold" },
   switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
+  switchLabel: { color: "#f4f3ee", fontSize: 16, fontWeight: "bold" },
   footerContainer: { alignItems: "center", marginTop: 24, width: "100%" },
   footerLogo: {
     fontSize: 20,
@@ -230,5 +217,7 @@ const styles = StyleSheet.create({
     color: "#f07167",
     marginBottom: 8,
   },
+  portfolioText: { fontSize: 16, marginVertical: 8, color: "#f07167" },
+  portfolioLink: { fontWeight: "bold", textDecorationLine: "underline" },
   footer: { fontSize: 14, textAlign: "center" },
 });
