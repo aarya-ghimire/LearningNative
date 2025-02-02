@@ -56,42 +56,27 @@ export default function App() {
     }
   };
 
-  const handleResetCounter = () => {
-    setCounter(0);
-    setEmoji("");
-    Animated.timing(progressAnim, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const onButtonPressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.9,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const onButtonPressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
-
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#001219" : "#f4f3ee" },
+        { backgroundColor: isDarkMode ? "#001219" : "#e8f6ef" },
       ]}
     >
-      <Text
-        style={[styles.header, { color: isDarkMode ? "#f4f3ee" : "#001219" }]}
-      >
-        My New App
-      </Text>
+      <View style={styles.topBar}>
+        <Text
+          style={[styles.header, { color: isDarkMode ? "#f4f3ee" : "#001219" }]}
+        >
+          My New App
+        </Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={toggleTheme}
+          trackColor={{ false: "#767577", true: "#00afb9" }}
+          thumbColor={isDarkMode ? "#0081a7" : "#f4f3ee"}
+        />
+      </View>
+
       <Text
         style={[styles.quote, { color: isDarkMode ? "#00afb9" : "#f07167" }]}
       >
@@ -114,65 +99,25 @@ export default function App() {
         {emoji}
       </Text>
 
-      <View style={styles.progressBarContainer}>
-        <Animated.View
-          style={[
-            styles.progressBar,
-            {
-              width: progressAnim.interpolate({
-                inputRange: [0, 100],
-                outputRange: ["0%", "100%"],
-              }),
-              backgroundColor: isDarkMode ? "#fed9b7" : "#f07167",
-            },
-          ]}
-        />
-      </View>
-
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-        <Pressable
-          style={styles.button}
-          onPress={handlePressPrimary}
-          onPressIn={onButtonPressIn}
-          onPressOut={onButtonPressOut}
-        >
-          <Text style={styles.buttonText}>Primary Action</Text>
-        </Pressable>
-      </Animated.View>
-
-      <TouchableOpacity style={styles.button} onPress={handleResetCounter}>
-        <Text style={styles.buttonText}>Reset Counter</Text>
+      <TouchableOpacity style={styles.button} onPress={handlePressPrimary}>
+        <Text style={styles.buttonText}>Primary Action</Text>
       </TouchableOpacity>
-
       <TouchableOpacity style={styles.button} onPress={generateQuote}>
         <Text style={styles.buttonText}>Generate Quote</Text>
       </TouchableOpacity>
 
-      <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>Dark Mode</Text>
-        <Switch
-          value={isDarkMode}
-          onValueChange={toggleTheme}
-          trackColor={{ false: "#767577", true: "#00afb9" }}
-          thumbColor={isDarkMode ? "#0081a7" : "#f4f3ee"}
-        />
-      </View>
-
       <View style={styles.footerContainer}>
         <Text style={styles.footerLogo}>Aarya's App</Text>
-
-        {/* Portfolio Link */}
         <Text
           style={styles.portfolioText}
           onPress={() => Linking.openURL("https://aaryaghimire.com.np")}
         >
           Check out my <Text style={styles.portfolioLink}>portfolio</Text>
         </Text>
-
         <Text
           style={[styles.footer, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
         >
-          © Aarya Ghimire 2025 | Built with ❤️ using React Native
+          © Aarya Ghimire 2025
         </Text>
       </View>
 
@@ -187,17 +132,19 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  header: { fontSize: 32, fontWeight: "bold", marginBottom: 16 },
+  topBar: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    right: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  header: { fontSize: 24, fontWeight: "bold" },
   quote: { fontSize: 14, fontStyle: "italic", marginVertical: 8 },
   counterText: { fontSize: 18, marginVertical: 8 },
   emojiText: { fontSize: 36, marginVertical: 8 },
-  progressBarContainer: {
-    width: "80%",
-    height: 10,
-    borderRadius: 5,
-    marginVertical: 16,
-  },
-  progressBar: { height: "100%", borderRadius: 5 },
   button: {
     backgroundColor: "#264653",
     paddingVertical: 12,
@@ -208,8 +155,6 @@ const styles = StyleSheet.create({
     width: 200,
   },
   buttonText: { color: "#f4f3ee", fontWeight: "bold" },
-  switchContainer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
-  switchLabel: { color: "#f4f3ee", fontSize: 16, fontWeight: "bold" },
   footerContainer: { alignItems: "center", marginTop: 24, width: "100%" },
   footerLogo: {
     fontSize: 20,
