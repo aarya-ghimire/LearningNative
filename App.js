@@ -1,11 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Pressable,
   Switch,
   Alert,
   Animated,
@@ -20,6 +19,20 @@ export default function App() {
   const progressAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
+  useEffect(() => {
+    Animated.timing(scaleAnim, {
+      toValue: 1.1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+  }, [counter]);
+
   const quotes = [
     "Believe you can and you're halfway there.",
     "Success is not final, failure is not fatal: It is the courage to continue that counts.",
@@ -30,17 +43,18 @@ export default function App() {
 
   const emojis = ["😊", "🚀", "🎉", "✨", "😎", "🌟", "🔥", "💪", "💡", "🎯"];
 
-  const toggleTheme = () => setIsDarkMode((prevMode) => !prevMode);
+  const toggleTheme = useCallback(
+    () => setIsDarkMode((prevMode) => !prevMode),
+    []
+  );
 
-  const generateQuote = () => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setQuote(randomQuote);
-  };
+  const generateQuote = useCallback(() => {
+    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+  }, []);
 
-  const handlePressPrimary = () => {
+  const handlePressPrimary = useCallback(() => {
     setCounter((prevCounter) => prevCounter + 1);
-    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-    setEmoji(randomEmoji);
+    setEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
 
     Animated.timing(progressAnim, {
       toValue: Math.min((counter + 1) * 10, 100),
@@ -54,7 +68,12 @@ export default function App() {
         `You pressed the button ${counter + 1} times!`
       );
     }
-  };
+  }, [counter]);
+
+  const resetCounter = useCallback(() => {
+    setCounter(0);
+    setEmoji("");
+  }, []);
 
   return (
     <View
@@ -76,36 +95,26 @@ export default function App() {
           thumbColor={isDarkMode ? "#0081a7" : "#f4f3ee"}
         />
       </View>
-
       <Text
         style={[styles.quote, { color: isDarkMode ? "#00afb9" : "#f07167" }]}
       >
         {quote}
       </Text>
-      <Text
-        style={[
-          styles.counterText,
-          { color: isDarkMode ? "#f07167" : "#264653" },
-        ]}
+      <Animated.Text
+        style={[styles.counterText, { transform: [{ scale: scaleAnim }] }]}
       >
         Primary Button Pressed: {counter} time(s)
-      </Text>
-      <Text
-        style={[
-          styles.emojiText,
-          { color: isDarkMode ? "#f07167" : "#264653" },
-        ]}
-      >
-        {emoji}
-      </Text>
-
+      </Animated.Text>
+      <Text style={styles.emojiText}>{emoji}</Text>
       <TouchableOpacity style={styles.button} onPress={handlePressPrimary}>
         <Text style={styles.buttonText}>Primary Action</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={generateQuote}>
         <Text style={styles.buttonText}>Generate Quote</Text>
       </TouchableOpacity>
-
+      <TouchableOpacity style={styles.resetButton} onPress={resetCounter}>
+        <Text style={styles.buttonText}>Reset Counter</Text>
+      </TouchableOpacity>
       <View style={styles.footerContainer}>
         <Text style={styles.footerLogo}>Aarya's App</Text>
         <Text
@@ -120,7 +129,6 @@ export default function App() {
           © Aarya Ghimire 2025
         </Text>
       </View>
-
       <StatusBar
         style={isDarkMode ? "light" : "dark"}
         translucent={true}
@@ -147,6 +155,15 @@ const styles = StyleSheet.create({
   emojiText: { fontSize: 36, marginVertical: 8 },
   button: {
     backgroundColor: "#264653",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 8,
+    alignItems: "center",
+    width: 200,
+  },
+  resetButton: {
+    backgroundColor: "#f07167",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
