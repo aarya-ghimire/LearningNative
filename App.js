@@ -101,11 +101,24 @@ export default function App() {
         {quote}
       </Text>
       <Animated.Text
-        style={[styles.counterText, { transform: [{ scale: scaleAnim }] }]}
+        style={[
+          styles.counterText,
+          {
+            transform: [{ scale: scaleAnim }],
+            color: isDarkMode ? "#f4f3ee" : "#001219",
+          },
+        ]}
       >
         Primary Button Pressed: {counter} time(s)
       </Animated.Text>
-      <Text style={styles.emojiText}>{emoji}</Text>
+      <Text
+        style={[
+          styles.emojiText,
+          { color: isDarkMode ? "#f4f3ee" : "#001219" },
+        ]}
+      >
+        {emoji}
+      </Text>
       <TouchableOpacity style={styles.button} onPress={handlePressPrimary}>
         <Text style={styles.buttonText}>Primary Action</Text>
       </TouchableOpacity>
