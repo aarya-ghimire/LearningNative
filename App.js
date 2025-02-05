@@ -20,17 +20,18 @@ export default function App() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    Animated.timing(scaleAnim, {
-      toValue: 1.1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 1.1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
       Animated.timing(scaleAnim, {
         toValue: 1,
-        duration: 300,
+        duration: 200,
         useNativeDriver: true,
-      }).start();
-    });
+      }),
+    ]).start();
   }, [counter]);
 
   const quotes = [
@@ -79,34 +80,38 @@ export default function App() {
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#001219" : "#e8f6ef" },
+        isDarkMode ? styles.darkMode : styles.lightMode,
       ]}
     >
       <View style={styles.topBar}>
         <Text
-          style={[styles.header, { color: isDarkMode ? "#f4f3ee" : "#001219" }]}
+          style={[
+            styles.header,
+            isDarkMode ? styles.textDark : styles.textLight,
+          ]}
         >
           My New App
         </Text>
         <Switch
           value={isDarkMode}
           onValueChange={toggleTheme}
-          trackColor={{ false: "#767577", true: "#00afb9" }}
-          thumbColor={isDarkMode ? "#0081a7" : "#f4f3ee"}
+          trackColor={{ false: "#ccc", true: "#00afb9" }}
+          thumbColor={isDarkMode ? "#0081a7" : "#fff"}
         />
       </View>
       <Text
-        style={[styles.quote, { color: isDarkMode ? "#00afb9" : "#f07167" }]}
+        style={[
+          styles.quote,
+          isDarkMode ? styles.textAccentDark : styles.textAccentLight,
+        ]}
       >
         {quote}
       </Text>
       <Animated.Text
         style={[
           styles.counterText,
-          {
-            transform: [{ scale: scaleAnim }],
-            color: isDarkMode ? "#f4f3ee" : "#001219",
-          },
+          { transform: [{ scale: scaleAnim }] },
+          isDarkMode ? styles.textDark : styles.textLight,
         ]}
       >
         Primary Button Pressed: {counter} time(s)
@@ -114,18 +119,21 @@ export default function App() {
       <Text
         style={[
           styles.emojiText,
-          { color: isDarkMode ? "#f4f3ee" : "#001219" },
+          isDarkMode ? styles.textDark : styles.textLight,
         ]}
       >
         {emoji}
       </Text>
-      <TouchableOpacity style={styles.button} onPress={handlePressPrimary}>
+      <TouchableOpacity
+        style={styles.buttonPrimary}
+        onPress={handlePressPrimary}
+      >
         <Text style={styles.buttonText}>Primary Action</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={generateQuote}>
+      <TouchableOpacity style={styles.buttonSecondary} onPress={generateQuote}>
         <Text style={styles.buttonText}>Generate Quote</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.resetButton} onPress={resetCounter}>
+      <TouchableOpacity style={styles.buttonReset} onPress={resetCounter}>
         <Text style={styles.buttonText}>Reset Counter</Text>
       </TouchableOpacity>
       <View style={styles.footerContainer}>
@@ -137,62 +145,72 @@ export default function App() {
           Check out my <Text style={styles.portfolioLink}>portfolio</Text>
         </Text>
         <Text
-          style={[styles.footer, { color: isDarkMode ? "#fed9b7" : "#264653" }]}
+          style={[
+            styles.footer,
+            isDarkMode ? styles.footerDark : styles.footerLight,
+          ]}
         >
           © Aarya Ghimire 2025
         </Text>
       </View>
-      <StatusBar
-        style={isDarkMode ? "light" : "dark"}
-        translucent={true}
-        backgroundColor={isDarkMode ? "#001219" : "#ffffff"}
-      />
+      <StatusBar style={isDarkMode ? "light" : "dark"} translucent={true} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  darkMode: { backgroundColor: "#001219" },
+  lightMode: { backgroundColor: "#e8f6ef" },
+  textDark: { color: "#f4f3ee" },
+  textLight: { color: "#001219" },
+  textAccentDark: { color: "#00afb9" },
+  textAccentLight: { color: "#f07167" },
   topBar: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    right: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
+    paddingVertical: 20,
   },
-  header: { fontSize: 24, fontWeight: "bold" },
-  quote: { fontSize: 14, fontStyle: "italic", marginVertical: 8 },
-  counterText: { fontSize: 18, marginVertical: 8 },
-  emojiText: { fontSize: 36, marginVertical: 8 },
-  button: {
+  header: { fontSize: 26, fontWeight: "bold" },
+  quote: { fontSize: 16, fontStyle: "italic", marginVertical: 8 },
+  counterText: { fontSize: 20, marginVertical: 8 },
+  emojiText: { fontSize: 40, marginVertical: 8 },
+  buttonPrimary: {
     backgroundColor: "#264653",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    padding: 14,
+    borderRadius: 10,
     marginVertical: 8,
+    width: 220,
     alignItems: "center",
-    width: 200,
   },
-  resetButton: {
+  buttonSecondary: {
+    backgroundColor: "#0081a7",
+    padding: 14,
+    borderRadius: 10,
+    marginVertical: 8,
+    width: 220,
+    alignItems: "center",
+  },
+  buttonReset: {
     backgroundColor: "#f07167",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    padding: 14,
+    borderRadius: 10,
     marginVertical: 8,
+    width: 220,
     alignItems: "center",
-    width: 200,
   },
-  buttonText: { color: "#f4f3ee", fontWeight: "bold" },
+  buttonText: { color: "#fff", fontWeight: "bold" },
   footerContainer: { alignItems: "center", marginTop: 24, width: "100%" },
-  footerLogo: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#f07167",
-    marginBottom: 8,
-  },
-  portfolioText: { fontSize: 16, marginVertical: 8, color: "#f07167" },
+  footerLogo: { fontSize: 20, fontWeight: "bold", color: "#f07167" },
+  portfolioText: { fontSize: 16, marginVertical: 8 },
   portfolioLink: { fontWeight: "bold", textDecorationLine: "underline" },
-  footer: { fontSize: 14, textAlign: "center" },
+  footerDark: { color: "#fed9b7" },
+  footerLight: { color: "#264653" },
 });
