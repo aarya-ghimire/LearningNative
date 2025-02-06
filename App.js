@@ -9,6 +9,7 @@ import {
   Alert,
   Animated,
   Linking,
+  Image,
 } from "react-native";
 
 export default function App() {
@@ -74,6 +75,7 @@ export default function App() {
   const resetCounter = useCallback(() => {
     setCounter(0);
     setEmoji("");
+    progressAnim.setValue(0); // Reset animation
   }, []);
 
   return (
@@ -99,6 +101,8 @@ export default function App() {
           thumbColor={isDarkMode ? "#0081a7" : "#fff"}
         />
       </View>
+      <Image source={require("./assets/me.jpg")} style={styles.profileImage} />
+
       <Text
         style={[
           styles.quote,
@@ -189,6 +193,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     width: 220,
     alignItems: "center",
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 20,
   },
   buttonSecondary: {
     backgroundColor: "#0081a7",
