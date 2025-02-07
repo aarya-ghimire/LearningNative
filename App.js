@@ -175,17 +175,27 @@ const styles = StyleSheet.create({
   textLight: { color: "#001219" },
   textAccentDark: { color: "#00afb9" },
   textAccentLight: { color: "#f07167" },
+
+  // Move the top bar to the top of the screen
   topBar: {
+    position: "absolute",
+    top: 40, // Adjust as needed for spacing from the top
+    left: 0,
+    right: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    paddingVertical: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    // backgroundColor: "rgba(0, 0, 0, 0.1)", // Optional: Slight background for better visibility
   },
+
   header: { fontSize: 26, fontWeight: "bold" },
   quote: { fontSize: 16, fontStyle: "italic", marginVertical: 8 },
   counterText: { fontSize: 20, marginVertical: 8 },
   emojiText: { fontSize: 40, marginVertical: 8 },
+
   buttonPrimary: {
     backgroundColor: "#264653",
     padding: 14,
@@ -217,6 +227,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: { color: "#fff", fontWeight: "bold" },
+
   footerContainer: { alignItems: "center", marginTop: 24, width: "100%" },
   footerLogo: { fontSize: 20, fontWeight: "bold", color: "#f07167" },
   portfolioText: { fontSize: 16, marginVertical: 8 },
