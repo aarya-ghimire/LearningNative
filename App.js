@@ -17,13 +17,25 @@ export default function App() {
   const [counter, setCounter] = useState(0);
   const [quote, setQuote] = useState("");
   const [emoji, setEmoji] = useState("");
+  const [currentDateTime, setCurrentDateTime] = useState("");
   const progressAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      const options = { weekday: "short", hour: "2-digit", minute: "2-digit" };
+      setCurrentDateTime(now.toLocaleDateString(undefined, options));
+    };
+    updateDateTime();
+    const interval = setInterval(updateDateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     Animated.sequence([
       Animated.timing(scaleAnim, {
-        toValue: 1.1,
+        toValue: 1.2,
         duration: 200,
         useNativeDriver: true,
       }),
@@ -75,7 +87,7 @@ export default function App() {
   const resetCounter = useCallback(() => {
     setCounter(0);
     setEmoji("");
-    progressAnim.setValue(0); // Reset animation
+    progressAnim.setValue(0);
   }, []);
 
   return (
@@ -101,15 +113,15 @@ export default function App() {
           thumbColor={isDarkMode ? "#0081a7" : "#fff"}
         />
       </View>
+      <Text style={styles.dateTimeText}>{currentDateTime}</Text>
       <Image source={require("./assets/me.jpg")} style={styles.profileImage} />
-
       <Text
         style={[
           styles.quote,
           isDarkMode ? styles.textAccentDark : styles.textAccentLight,
         ]}
       >
-        {quote}
+        {quote || "Tap 'Generate Quote' for motivation!"}
       </Text>
       <Animated.Text
         style={[
@@ -179,7 +191,7 @@ const styles = StyleSheet.create({
   // Move the top bar to the top of the screen
   topBar: {
     position: "absolute",
-    top: 40, // Adjust as needed for spacing from the top
+    top: 40,
     left: 0,
     right: 0,
     flexDirection: "row",
@@ -234,4 +246,28 @@ const styles = StyleSheet.create({
   portfolioLink: { fontWeight: "bold", textDecorationLine: "underline" },
   footerDark: { color: "#fed9b7" },
   footerLight: { color: "#264653" },
+
+  dateTimeText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginVertical: 8,
+    color: "#00afb9",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  quote: {
+    fontSize: 16,
+    fontStyle: "italic",
+    marginVertical: 8,
+  },
+  counterText: {
+    fontSize: 20,
+    marginVertical: 8,
+  },
+  emojiText: {
+    fontSize: 40,
+    marginVertical: 8,
+  },
 });
