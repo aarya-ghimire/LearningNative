@@ -24,11 +24,24 @@ export default function App() {
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
-      const options = { weekday: "short", hour: "2-digit", minute: "2-digit" };
-      setCurrentDateTime(now.toLocaleDateString(undefined, options));
+      const day = now.toLocaleDateString(undefined, { weekday: "short" });
+      const month = now.toLocaleString("default", { month: "short" });
+      const date = now.getDate();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12;
+
+      const suffix = ["th", "st", "nd", "rd"][
+        date % 10 > 3 || [11, 12, 13].includes(date % 100) ? 0 : date % 10
+      ];
+
+      setCurrentDateTime(
+        `${date}${suffix} ${month}, ${day} ${formattedHours}:${minutes} ${ampm}`
+      );
     };
     updateDateTime();
-    const interval = setInterval(updateDateTime, 60000);
+    const interval = setInterval(updateDateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
